@@ -13,6 +13,7 @@ load_dotenv()
 
 APP_PASSWORD = os.getenv('app_password')
 
+#replace SEARCH_URL with the url of the search you want to run the script on
 SEARCH_URL = 'https://sfbay.craigslist.org/search/sss?query=espresso%20machine#search=1~list~0~0'
 
 def get_listings(url):
@@ -38,7 +39,8 @@ def get_previous(text):
     return formatted_links
 
 def item_content(url):
-    """ returns tuple of price and image (if available) from individual item page """
+    """ returns tuple of price and image (if available) from individual item page
+        if there is no image on the listing page it will return none. """
     listing = requests.get(url)
     content = BeautifulSoup(listing.content, 'html.parser')
     try:
@@ -100,11 +102,11 @@ html = f"""<html><body>{email_content}</body></html>"""
 # Turn html into MIMEText object
 part1 = MIMEText(html, "html")
 
-# The email client will try to render the last part first
+# Content email client will put in body of message.
 message.attach(part1)
 
 # Create secure connection with server and send email
-# If email_content lenght is greater then 0 send the email
+# If email_content length is greater than 0 (has new search results) -> send the email
 context = ssl.create_default_context()
 with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
     server.login(sender_email, APP_PASSWORD)
