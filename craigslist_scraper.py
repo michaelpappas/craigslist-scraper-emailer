@@ -40,14 +40,18 @@ def get_previous(text):
 
 def item_content(url):
     """ returns tuple of price and image (if available) from individual item page
-        if there is no image on the listing page it will return none. """
+        if there is no image or price on the listing page it will return none. """
     listing = requests.get(url)
     content = BeautifulSoup(listing.content, 'html.parser')
     try:
         image = content.find('img')['src']
     except:
         image = None
-    return (content.find(class_="price").get_text(), image)
+    try:
+        price = content.find(class_="price").get_text()
+    except:
+        price = None
+    return (price, image)
 
 
 def format_new_text(data):
