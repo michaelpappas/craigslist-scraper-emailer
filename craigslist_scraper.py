@@ -13,8 +13,52 @@ load_dotenv()
 
 APP_PASSWORD = os.getenv('app_password')
 
-#replace SEARCH_URL with the url of the search you want to run the script on
-SEARCH_URL = 'https://sfbay.craigslist.org/search/sss?query=espresso%20machine#search=1~list~0~0'
+
+
+#replace BASE_URL with the url of the search you want to run the script on
+
+#create a class that is an instance of each item search
+class Item():
+    def __init__(self, query):
+        self.query = query
+
+    def results(self, item):
+        """ fetches page data, waits for content to load, and returns 'ol' from page """
+        formatted_item = item.replace(" ", "%20")
+        url = f'https://sfbay.craigslist.org/search/sss?query={formatted_item}#search=1~list~0~0'
+        driver = webdriver.Firefox()
+        response = driver.get(url)
+        time.sleep(1)
+        html = driver.page_source
+        html_soup = BeautifulSoup(html, 'html.parser')
+        driver.quit()
+        ol_element = html_soup.find('ol')
+        return Item.format_results(ol_element)
+
+    def format_results(data):
+        """ Takes in BFS 'ol' content and returns formated dictionary of strings formatted the same as .txt """
+        new_results = []
+        for x in range(10):
+            title = data.find_all("a")[x].text
+            link = data.find_all("a")[x]['href']
+            new_results.append(f"{title} - {link}")
+        return new_results
+
+    def format_new_html(data):
+        """ Takes in BFS 'ol' content and returns html string for email content """
+        new_results = ''
+        for x in range(10):
+            title = data.find_all("a")[x].text
+            link = data.find_all("a")[x]['href']
+            text_line = f"{title} - {link}"
+            if text_line not in previous_results:
+                content = item_content(link)
+                price = content[0]
+                image = content[1]
+                new_results += (f'<a href={link}>{title} - {price}</a><br><img src="{image}"><br>')
+        return new_results
+
+
 
 def get_listings(url):
     """ fetches page data, waits for content to load, and returns 'ol' from page """
@@ -77,9 +121,13 @@ def format_new_html(data):
             new_results += (f'<a href={link}>{title} - {price}</a><br><img src="{image}"><br>')
     return new_results
 
-posts = get_listings(SEARCH_URL)
-
 previous_results = get_previous('/Users/mpappas/rithm/projects/craigslist_scraper/searchResults.txt')
+
+posts = get_listings(BASE_URL)
+espresso_machines = Item("espresso machines")
+espresso_Results = espresso_machines.results
+
+
 
 new_formatted = format_new_text(posts)
 
