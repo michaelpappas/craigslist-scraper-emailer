@@ -79,13 +79,13 @@ def format_new_html(data):
 
 posts = get_listings(SEARCH_URL)
 
-previous_results = get_previous('searchResults.txt')
+previous_results = get_previous('/Users/mpappas/rithm/projects/craigslist_scraper/searchResults.txt')
 
 new_formatted = format_new_text(posts)
 
 email_content = format_new_html(posts)
 
-with open('searchResults.txt', 'w') as f:
+with open('/Users/mpappas/rithm/projects/craigslist_scraper/searchResults.txt', 'w') as f:
     """ writes 10 most recent search results to text file for future reference """
     for x in range(10):
         f.write(new_formatted[x])
