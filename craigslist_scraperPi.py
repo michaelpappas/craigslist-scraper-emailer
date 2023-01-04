@@ -64,7 +64,7 @@ def item_content(url):
 def format_new_text(data):
     """ Takes in BFS 'ol' content and returns formated dictionary of strings formatted the same as .txt """
     new_results = []
-    for x in range(10):
+    for x in range(20):
         title = data.find_all("a")[x].text
         link = data.find_all("a")[x]['href']
         new_results.append(f"{title} - {link}")
@@ -73,7 +73,7 @@ def format_new_text(data):
 def format_new_html(data):
     """ Takes in BFS 'ol' content and returns html string for email content """
     new_results = ''
-    for x in range(10):
+    for x in range(20):
         title = data.find_all("a")[x].text
         link = data.find_all("a")[x]['href']
         text_line = f"{title} - {link}"
@@ -93,8 +93,8 @@ new_formatted = format_new_text(posts)
 email_content = format_new_html(posts)
 
 with open('/home/michael/Documents/craigslist_scraper/searchResults.txt', 'w') as f:
-    """ writes 10 most recent search results to text file for future reference """
-    for x in range(10):
+    """ writes 20 most recent search results to text file for future reference """
+    for x in range(20):
         f.write(new_formatted[x])
         f.write('\n')
 
