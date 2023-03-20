@@ -21,6 +21,7 @@ SEARCH_URL = 'https://sfbay.craigslist.org/search/sss?query=espresso%20machine#s
 
 def get_listings(url):
     """ fetches page data, waits for content to load, and returns 'ol' from page """
+
     display = Display(visible=0, size=(1600, 1200))
     display.start()
     browser_driver = Service('/usr/lib/chromium-browser/chromedriver')
@@ -35,6 +36,7 @@ def get_listings(url):
 
 def get_previous(text):
     """ Takes text file content and returns list of strings without newline"""
+
     previous_text = open(text, 'r')
     previous_links = previous_text.readlines()
 
@@ -48,6 +50,7 @@ def get_previous(text):
 def item_content(url):
     """ returns tuple of price and image (if available) from individual item page
         if there is no image on the listing page it will return none. """
+
     listing = requests.get(url)
     content = BeautifulSoup(listing.content, 'html.parser')
     try:
@@ -63,6 +66,7 @@ def item_content(url):
 
 def format_new_text(data):
     """ Takes in BFS 'ol' content and returns formated dictionary of strings formatted the same as .txt """
+
     new_results = []
     for x in range(20):
         title = data.find_all("a")[x].text
@@ -72,6 +76,7 @@ def format_new_text(data):
 
 def format_new_html(data):
     """ Takes in BFS 'ol' content and returns html string for email content """
+
     new_results = ''
     for x in range(20):
         title = data.find_all("a")[x].text
