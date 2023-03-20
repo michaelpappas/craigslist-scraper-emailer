@@ -8,7 +8,6 @@ Two versions scripts are available; one for running on OSX and one for running o
 - [Manual Installation](#manual-installation)
 - [Dev Environment](#development-environment)
 - [Project Structure](#project-structure)
-- [API Endpoints](#api-endpoints)
 - [Further Improvements](#further-improvements)
 
 ## Manual Installation
@@ -62,6 +61,10 @@ more info about setting up CRONjobs can be found [here](https://crontab.guru/).
  |--craigslist_scraper.py   # main script for OSX
  |--craigslist_scraperPi.py # main script for Raspberry Pi
 ```
+
+## Further Improvements
+
+Although the text file storage of previous results works, it's far from ideal. The plan is to replace this simple script with a Flask app that allows for a user to add multple search queries and toggle different search on and off. This will also use SQL database to store search results to reduce the occurance of repeat notification of new listings. Additionally, having this run in a venv will make installing dependencies much easier.
 
 
 
