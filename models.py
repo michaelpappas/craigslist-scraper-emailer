@@ -19,7 +19,7 @@ class URL(db.Model):
         unique=True
     )
 
-    url = db.Column(
+    search_url = db.Column(
         db.Text,
         nullable=False
     )
@@ -29,7 +29,16 @@ class URL(db.Model):
         default=True
     )
 
-    listings = db.relationship('Listings', backref="URL")
+    @classmethod
+    def add_search(cls, name, search_url):
+        """creates new record in URL tabel with name and search URL"""
+
+        url = URL(
+            name=name,
+            search_url=search_url
+        )
+        db.session.add(url)
+        return url
 
 
 class Listing(db.Model):
@@ -39,8 +48,7 @@ class Listing(db.Model):
 
     id = db.Column(
         db.Integer,
-        nullable=False,
-        unique=True
+        primary_key=True
     )
 
     url = db.Column(
@@ -69,5 +77,17 @@ class Listing(db.Model):
         nullable=False,
         default=datetime.utcnow
     )
+
+
+
+def connect_db(app):
+    """Connect this database to provided Flask app.
+
+    You should call this in your Flask app.
+    """
+
+    app.app_context().push()
+    db.app = app
+    db.init_app(app)
 
 

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+    <div class="alert alert-{{ category }}">{{ message }}</div>
+  {% endfor %}
+  <form method="POST" id="add_search">
+    {{ form.hidden_tag() }}
+
+    {% for field in form if field.widget.input_type != 'hidden' %}
+      {% for error in field.errors %}
+        <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+      {{ field(placeholder=field.label.text, class="form-control") }}
+      {% endfor %}
+
+    <button class="btn btn-primary btn-lg">Add Search URL</button>
+  </form>
+
+  <div class="col-8">
+    <h2>Current Searches</h2>
+    <ul>
+      {% for search_query in searches %}
+      <li>{{ search_query.name }} - {{ search_query.search_url }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>

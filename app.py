@@ -5,8 +5,8 @@ from flask import Flask, render_template, request, flash, redirect, session, g
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
-from forms import UserAddForm, LoginForm, MessageForm
-from models import db, connect_db, User, Message
+from forms import URLAddForm
+from models import db, connect_db, URL, Listing
 
 load_dotenv()
 
@@ -29,11 +29,26 @@ def homepage():
     """Renders homepage
     Allows user to view search queries and toggle active/inactive
     Renders form for adding search queries."""
+    searches = URL.query.all()
+    breakpoint()
+    form = URLAddForm()
 
-    if form.Validate_on_submit():
+    if form.validate_on_submit():
         try:
-            ulr = Url.add_search
-
+            url = URL.add_search(
+                name = form.name.data,
+                search_url = form.search_url.data
+            )
+            db.session.commit()
         except IntegrityError:
             flash("That url is already in use", "danger")
-            return render_template()
+            return render_template('home.html', form=form)
+
+        flash("URL Successfully Added!", 'danger')
+        return redirect("/")
+
+
+    else:
+        return render_template('home.html', form=form, searches=searches)
+
+
