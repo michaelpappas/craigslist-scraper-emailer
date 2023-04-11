@@ -66,17 +66,6 @@ class Listing(db.Model):
         db.String,
         nullable=False
     )
-
-    img_url = db.Column (
-        db.String,
-        nullable=False
-    )
-
-    price = db.Column(
-        db.Integer,
-        nullable=True
-    )
-
     timestamp = db.Column(
         db.DateTime,
         nullable=False,
@@ -89,11 +78,9 @@ class Listing(db.Model):
         return listing
 
     @classmethod
-    def add_listing(cls, url, title, img_url, price):
+    def add_listing(cls, url, title):
         listing = Listing(url=url,
-                          title=title,
-                          img_url=img_url,
-                          price=price)
+                          title=title)
         db.session.add(listing)
         db.session.commit()
 
