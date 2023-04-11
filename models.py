@@ -40,6 +40,11 @@ class URL(db.Model):
         db.session.add(url)
         return url
 
+    @classmethod
+    def get_searches(cls):
+        searches = URL.query.filter_by(active=True).all()
+        return searches
+
 
 class Listing(db.Model):
     """Listings from Craigslist queries"""
@@ -77,6 +82,20 @@ class Listing(db.Model):
         nullable=False,
         default=datetime.utcnow
     )
+
+    @classmethod
+    def find_listing(cls, listing_url):
+        listing = Listing.query.filter_by(url=listing_url).all()
+        return listing
+
+    @classmethod
+    def add_listing(cls, url, title, img_url, price):
+        listing = Listing(url=url,
+                          title=title,
+                          img_url=img_url,
+                          price=price)
+        db.session.add(listing)
+        db.session.commit()
 
 
 

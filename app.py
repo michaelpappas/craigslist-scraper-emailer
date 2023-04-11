@@ -30,9 +30,7 @@ def homepage():
     Allows user to view search queries and toggle active/inactive
     Renders form for adding search queries."""
     searches = URL.query.all()
-    breakpoint()
     form = URLAddForm()
-
     if form.validate_on_submit():
         try:
             url = URL.add_search(
@@ -44,7 +42,7 @@ def homepage():
             flash("That url is already in use", "danger")
             return render_template('home.html', form=form)
 
-        flash("URL Successfully Added!", 'danger')
+        flash("New Search Successfully Added!", 'danger')
         return redirect("/")
 
 
@@ -52,3 +50,18 @@ def homepage():
         return render_template('home.html', form=form, searches=searches)
 
 
+@app.post('/searches/<int:search_id>/activate/')
+def activate_search(search_id):
+    search = URL.query.get_or_404(search_id)
+    search.active = True
+    db.session.commit()
+
+    return redirect('/')
+
+@app.post('/searches/<int:search_id>/deactivate')
+def deactivate_search(search_id):
+    search = URL.query.get_or_404(search_id)
+    search.active = False
+    db.session.commit()
+
+    return redirect('/')
