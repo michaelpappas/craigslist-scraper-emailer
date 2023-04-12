@@ -30,6 +30,8 @@ toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
+from pyvirtualdisplay import Display
+
 
 APP_PASSWORD = os.getenv('app_password')
 
