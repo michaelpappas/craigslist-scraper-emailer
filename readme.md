@@ -1,5 +1,5 @@
 # Craigslist Scraper/Emailer
-A Python script that reads Craigslist listings for a provided search URL. If a new search result is found then an email is send with the posting image, price, and link to the posting.
+A Python script that reads Craigslist listings for a provided search URL. If a new search result is found then an email is sent with the posting image, price, and link to the posting.
 
 Two versions scripts are available; one for running on OSX and one for running on a Raspberry Pi.
 
