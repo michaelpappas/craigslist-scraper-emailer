@@ -91,7 +91,7 @@ python3 scraperPi.py
 ```
 You should receive an email once the script has finished running.
 
-Caution!
+**Caution!**
 It is likely that Craigslist will soft ban your IP if you run this too frequently. It is recomendeded that you route your Pi traffic through a VPN.
 I used Openvpn with Surfshark and have it configured to start on boot. Info on how to configure Openvpn to start on boot with systemctl can be found [here](https://askubuntu.com/questions/229800/how-to-auto-start-openvpn-client-on-ubuntu-cli/898437#898437?newreg=b08e700a6d814115b9c33628c7a05891) Look for the answer dated March 30, 2017.
 
