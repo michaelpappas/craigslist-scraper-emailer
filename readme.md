@@ -56,7 +56,7 @@ Install the requirements
 pip3 install -r requirements.txt
 ```
 
-Install additional dependencies (for raspberry pi)
+### Install additional dependencies (for raspberry pi)
 
 chromium-chromdriver
 ```bash
@@ -81,9 +81,9 @@ flask run -p 5000
 Navigate to localhost:5000 where you can start configuring search queries to scrape.
 
 To find a search query, search to something on Craigslist, configure the view to "list" and copy the url.
-Past this url into the search url field on the flask app and give the search query and unique name.
-Once the search query has been successfully add you can toggle the query active/inactive.
-The scraper will only scrape active search queries.
+Paste this url into the search url field on the flask app and give the search query a unique name.
+Once the search query has been successfully added you can toggle the query active/inactive.
+The scraper will only search active search queries.
 
 To test the script you can run:
 ```bash
@@ -92,10 +92,10 @@ python3 scraperPi.py
 You should receive an email once the script has finished running.
 
 Caution!
-It is likely that Craigslist will soft ban your IP if you run this too frequently. It is recomended that you route your Pi traffic through a VPN.
+It is likely that Craigslist will soft ban your IP if you run this too frequently. It is recomendeded that you route your Pi traffic through a VPN.
 I used Openvpn with Surfshark and have it configured to start on boot. Info on how to configure Openvpn to start on boot with systemctl can be found [here](https://askubuntu.com/questions/229800/how-to-auto-start-openvpn-client-on-ubuntu-cli/898437#898437?newreg=b08e700a6d814115b9c33628c7a05891) Look for the answer dated March 30, 2017.
 
-To run the script you will need to create a CRONjon to run the script.
+To run the script you will need to create a CRONjon.
 
 Example CRONjob
 ```bash
@@ -104,7 +104,7 @@ Example CRONjob
 ```
 more info about setting up CRONjobs can be found [here](https://crontab.guru/).
 
-### Project Structure
+## Project Structure
 
 ```
 \                           # project directory
