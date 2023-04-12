@@ -101,7 +101,7 @@ def format_html(input):
         else:
             for result in results:
                 has_content = True
-                email_html += f'<a href={result["listing_url"]}>{result["title"]} - {result["price"]}</a><br><img src="{result["img_url"]}"><br>'
+                email_html += f'<a href={result["listing_url"]}>{result["title"]} - ${result["price"]}</a><br><img src="{result["img_url"]}"><br>'
 
     return (email_html, has_content)
 
