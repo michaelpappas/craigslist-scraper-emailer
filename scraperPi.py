@@ -10,7 +10,7 @@ from email.mime.multipart import MIMEMultipart
 import os
 from dotenv import load_dotenv
 from models import db, connect_db, URL, Listing
-
+from pyvirtualdisplay import Display
 from flask import Flask
 from flask_debugtoolbar import DebugToolbarExtension
 
@@ -29,9 +29,6 @@ app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
-
-from pyvirtualdisplay import Display
-
 
 APP_PASSWORD = os.getenv('app_password')
 
