@@ -1,7 +1,7 @@
 # Craigslist Scraper/Emailer
 A Python script that reads Craigslist listings for a provided search URL. If a new search result is found then an email is sent with the posting image, price, and link to the posting.
 
-Two versions scripts are available; one for running on OSX and one for running on a Raspberry Pi.
+Two versions of the script are available; one for running on unix and one for running on a Raspberry Pi.
 
 
 ## Table of Contents
@@ -29,9 +29,11 @@ or
 cp .env.example .env
 # open .env and modify the environment variables
 ```
-choose any string for the SECRET_KEY
-replace the {postgres username} and {postgres password} with your personal postgres username and password.
-More info regarding configureing postgres on a raspberry pi can be found [here](https://pimylifeup.com/raspberry-pi-postgresql/)
+SECRET_KEY - Choose any string 
+
+DATABASE_URL - Replace the {postgres username} and {postgres password} with your personal postgres username and password.
+
+More info regarding configuring postgres on a raspberry pi can be found [here](https://pimylifeup.com/raspberry-pi-postgresql/)
 
 The email environment variables are configured to work with a gmail account as the sending email address configured to use an app password.
 More info on configuring Gmail to work with an app password can be seen [here](https://support.google.com/accounts/answer/185833?hl=en).
@@ -88,12 +90,14 @@ The scraper will only search active search queries.
 To test the script you can run:
 ```bash
 python3 scraperPi.py
+#or
+python3 scraper.py
 ```
-You should receive an email once the script has finished running.
+You should receive an email once the script has finished running if new search results are found.
 
 **Caution!**
-It is likely that Craigslist will soft ban your IP if you run this too frequently. It is recomendeded that you route your Pi traffic through a VPN.
-I used Openvpn with Surfshark and have it configured to start on boot. Info on how to configure Openvpn to start on boot with systemctl can be found [here](https://askubuntu.com/questions/229800/how-to-auto-start-openvpn-client-on-ubuntu-cli/898437#898437?newreg=b08e700a6d814115b9c33628c7a05891) Look for the answer dated March 30, 2017.
+It is likely that Craigslist will soft ban your IP if you run this too frequently. It is recomendeded that you route your traffic through a VPN.
+I used Openvpn with Surfshark and have it configured to start on boot on the RaspberryPi. Info on how to configure Openvpn to start on boot with systemctl can be found [here](https://askubuntu.com/questions/229800/how-to-auto-start-openvpn-client-on-ubuntu-cli/898437#898437?newreg=b08e700a6d814115b9c33628c7a05891) Look for the answer dated March 30, 2017.
 
 To run the script you will need to create a CRONjon.
 
@@ -115,7 +119,7 @@ more info about setting up CRONjobs can be found [here](https://crontab.guru/).
 
 ## Further Improvements
 
-TODO: fill in furth improvements.
+TODO: fill in further improvements.
 
 
 
