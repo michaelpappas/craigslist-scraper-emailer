@@ -9,28 +9,18 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
 from dotenv import load_dotenv
-from models import db, connect_db, URL, Listing
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from models import db, URL, Listing
 from pyvirtualdisplay import Display
-from flask import Flask
-from flask_debugtoolbar import DebugToolbarExtension
 
 load_dotenv()
+db_string = os.environ['DATABASE_URL']
 
-app = Flask(__name__)
+db = create_engine(db_string)
 
-# Get DB_URI from environ variable (useful for production/testing) or,
-# if not set there, use development local db.
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ['DATABASE_URL'].replace("postgres://", "postgresql://"))
-app.config['SQLALCHEMY_ECHO'] = False
-app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
-app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
-toolbar = DebugToolbarExtension(app)
-
-connect_db(app)
-
-APP_PASSWORD = os.getenv('app_password')
+Session = sessionmaker(db)
+session = Session()
 
 def get_active():
     """ fetches list of active search queries from URL table """
