@@ -101,7 +101,6 @@ def add_listing(new_url, new_title):
 new_results = get_active()
 email_content = format_html(new_results)
 
-
 ################################# email logic #####################
 SENDER_EMAIL = os.environ['email_sender']
 RECEIVER_EMAIL = os.environ['email_receiver']
