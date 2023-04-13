@@ -7,46 +7,35 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
 from dotenv import load_dotenv
-from models import db, connect_db, URL, Listing
-
-from flask import Flask
-from flask_debugtoolbar import DebugToolbarExtension
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from models import db, URL, Listing
 
 load_dotenv()
+db_string = os.environ['DATABASE_URL']
 
-app = Flask(__name__)
+db = create_engine(db_string)
 
-# Get DB_URI from environ variable (useful for production/testing) or,
-# if not set there, use development local db.
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ['DATABASE_URL'].replace("postgres://", "postgresql://"))
-app.config['SQLALCHEMY_ECHO'] = False
-app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
-app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
-toolbar = DebugToolbarExtension(app)
+Session = sessionmaker(db)
+session = Session()
 
-connect_db(app)
-
-
-APP_PASSWORD = os.getenv('app_password')
 
 def get_active():
     """ fetches list of active search queries from URL table """
-    searches = URL.get_searches()
+    searches = session.query(URL).filter(URL.active==True).all()
     results = {}
 
     for search in searches:
         listings = get_listings(search.search_url)
         new_results = []
+        breakpoint()
         for x in range(10):
             title = listings.find_all("a")[x].text
             listing_url = listings.find_all("a")[x]['href']
-            listing_db = Listing.find_listing(listing_url)
+            listing_db = session.query(Listing).filter(Listing.url==listing_url).all()
             if len(listing_db) == 0:
                 (price, img_url) = item_content(listing_url)
-                Listing.add_listing(listing_url, title)
+                add_listing(listing_url, title)
                 new_results.append({"title":title,
                                     "listing_url":listing_url,
                                     "price":price,
@@ -59,7 +48,7 @@ def get_listings(url):
     """ fetches page data, waits for content to load, and returns 'ol' from page """
     driver = webdriver.Firefox()
     response = driver.get(url)
-    time.sleep(1)
+    time.sleep(2)
     html = driver.page_source
     html_soup = BeautifulSoup(html, 'html.parser')
     driver.quit()
@@ -97,19 +86,33 @@ def format_html(input):
 
     return (email_html, has_content)
 
+def get_searches():
+        """ queries db and returns active search queries """
+        searches = URL.query.filter_by(active=True).all()
+        return searches
+
+def add_listing(new_url, new_title):
+    """ adds new listing to Listings table """
+    new_listing = Listing(url = new_url, title = new_title)
+    session.add(new_listing)
+    session.commit()
+
 
 new_results = get_active()
 email_content = format_html(new_results)
+breakpoint()
 
 
 ################################# email logic #####################
-sender_email = os.getenv('email_sender')
-receiver_email = os.getenv('email_receiver')
+SENDER_EMAIL = os.environ['email_sender']
+RECEIVER_EMAIL = os.environ['email_receiver']
+APP_PASSWORD = os.environ['app_password']
+
 
 message = MIMEMultipart("alternative")
 message["Subject"] = "Craigslist Espresso Machines"
-message["From"] = sender_email
-message["To"] = receiver_email
+message["From"] = SENDER_EMAIL
+message["To"] = RECEIVER_EMAIL
 
 html = f"""<html><body>{email_content[0]}</body></html>"""
 
@@ -123,10 +126,10 @@ message.attach(part1)
 # If email_content length is greater than 0 (has new search results) -> send the email
 context = ssl.create_default_context()
 with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-    server.login(sender_email, APP_PASSWORD)
+    server.login(SENDER_EMAIL, APP_PASSWORD)
     if email_content[1] == True:
         server.sendmail(
-            sender_email, receiver_email, message.as_string()
+            SENDER_EMAIL, RECEIVER_EMAIL, message.as_string()
     )
 
 
