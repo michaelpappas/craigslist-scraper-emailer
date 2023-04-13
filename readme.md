@@ -115,7 +115,7 @@ more info about setting up CRONjobs can be found [here](https://crontab.guru/).
 
 ## Further Improvements
 
-TODO: fill in furth improvements.
+TODO: fill in further improvements.
 
 
 
