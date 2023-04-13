@@ -29,9 +29,9 @@ or
 cp .env.example .env
 # open .env and modify the environment variables
 ```
-choose any string for the SECRET_KEY
+SECRET_KEY - Choose any string 
 
-Replace the {postgres username} and {postgres password} with your personal postgres username and password.
+DATABASE_URL - Replace the {postgres username} and {postgres password} with your personal postgres username and password.
 
 More info regarding configuring postgres on a raspberry pi can be found [here](https://pimylifeup.com/raspberry-pi-postgresql/)
 
