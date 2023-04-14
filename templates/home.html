@@ -31,11 +31,13 @@
     <ul>
       {% for search_query in searches %}
       <li>{{ search_query.name }} - <a href="{{ search_query.search_url }}">{{ search_query.search_url }}</a>
+        <div></div>
       {% if search_query.active == True %}
       Status = Active<form method="POST" action="/searches/{{ search_query.id }}/deactivate"><button>Deactivate</button></form>
       {% else %}
       Status = Inactive <form method="POST" action="/searches/{{ search_query.id }}/activate"><button>Activate</button></form></li>
       {% endif %}
+      <form method="POST" action="/searches/{{ search_query.id }}/delete"><button type="button" class="btn btn-primary">Delete</button></form>
       {% endfor %}
     </ul>
     </div>

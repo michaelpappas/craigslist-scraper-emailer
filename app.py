@@ -52,6 +52,7 @@ def homepage():
 
 @app.post('/searches/<int:search_id>/activate/')
 def activate_search(search_id):
+    """Change URL active status to true"""
     search = URL.query.get_or_404(search_id)
     search.active = True
     db.session.commit()
@@ -60,8 +61,17 @@ def activate_search(search_id):
 
 @app.post('/searches/<int:search_id>/deactivate')
 def deactivate_search(search_id):
+    """Change URL active status to false"""
     search = URL.query.get_or_404(search_id)
     search.active = False
+    db.session.commit()
+
+    return redirect('/')
+@app.post('/searches/<int:search_id>/delete')
+def delete_search(search_id):
+    """Delete search from db"""
+    search = URL.query.get_or_404(search_id)
+    db.session.delete(search)
     db.session.commit()
 
     return redirect('/')
