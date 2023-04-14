@@ -28,7 +28,6 @@ def get_active():
     for search in searches:
         listings = get_listings(search.search_url)
         new_results = []
-        breakpoint()
         for x in range(10):
             title = listings.find_all("a")[x].text
             listing_url = listings.find_all("a")[x]['href']
