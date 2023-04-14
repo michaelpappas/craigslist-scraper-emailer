@@ -4,12 +4,15 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Craiglist Scraper/Emailer</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-<body>
+<body style="background-color: #551A8B;">
+  <div class="container col-8" style="background-color: #EEEEEE;">
   {% for category, message in get_flashed_messages(with_categories=True) %}
     <div class="alert alert-{{ category }}">{{ message }}</div>
   {% endfor %}
+  <h1>Craigslist Scraper/Emailer</h1>
   <form method="POST" id="add_search">
     {{ form.hidden_tag() }}
 
@@ -17,13 +20,13 @@
       {% for error in field.errors %}
         <span class="text-danger">{{ error }}</span>
       {% endfor %}
-      {{ field(placeholder=field.label.text, class="form-control") }}
+      {{ field(placeholder=field.label.text, class="form-control mb-1") }}
       {% endfor %}
 
     <button class="btn btn-primary btn-lg">Add Search URL</button>
   </form>
 
-  <div class="col-8">
+  <div class="pb-2">
     <h2>Current Searches</h2>
     <ul>
       {% for search_query in searches %}
@@ -35,6 +38,9 @@
       {% endif %}
       {% endfor %}
     </ul>
+    </div>
   </div>
+</div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>
