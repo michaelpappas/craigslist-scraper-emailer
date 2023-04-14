@@ -42,7 +42,7 @@ def homepage():
             flash("That url is already in use", "danger")
             return render_template('home.html', form=form)
 
-        flash("New Search Successfully Added!", 'danger')
+        flash("New Search Successfully Added!", 'success')
         return redirect("/")
 
 
