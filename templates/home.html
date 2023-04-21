@@ -37,7 +37,7 @@
       {% else %}
       Status = Inactive <form method="POST" action="/searches/{{ search_query.id }}/activate"><button>Activate</button></form></li>
       {% endif %}
-      <form method="POST" action="/searches/{{ search_query.id }}/delete"><button type="button" class="btn btn-primary">Delete</button></form>
+      <form method="POST" action="/searches/{{ search_query.id }}/delete"><button >Delete</button></form>
       {% endfor %}
     </ul>
     </div>
