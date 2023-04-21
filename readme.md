@@ -29,7 +29,7 @@ or
 cp .env.example .env
 # open .env and modify the environment variables
 ```
-SECRET_KEY - Choose any string 
+SECRET_KEY - Choose any string
 
 DATABASE_URL - Replace the {postgres username} and {postgres password} with your personal postgres username and password.
 
@@ -106,6 +106,11 @@ Example CRONjob
 */2 * * * * [path_to_venv]/bin/python3 [path_to_directory]/scraperPi.py
 # this script will run every 2 minutes forever
 ```
+You will also need to change permissions to execute the file.
+```bash
+sudo chmod -x [filepath]
+```
+
 more info about setting up CRONjobs can be found [here](https://crontab.guru/).
 
 ## Project Structure
@@ -119,7 +124,8 @@ more info about setting up CRONjobs can be found [here](https://crontab.guru/).
 
 ## Further Improvements
 
-TODO: fill in further improvements.
+1. Write tests for scraper logic and for Flask app
+2. Make page to see list of search results for a given query.
 
 
 
