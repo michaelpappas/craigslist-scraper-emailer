@@ -27,23 +27,24 @@ def get_active():
 
     for search in searches:
         listings = get_listings(search.search_url)
-        new_results = []
-        listing_count = 1
-        while listing_count <= 10:
-            title = listings.find_all("a")[listing_count].text
-            listing_url = listings.find_all("a")[listing_count]['href']
-            listing_db = session.query(Listing).filter(Listing.url==listing_url).all()
-            if len(listing_db) == 0:
-                (price, img_url) = item_content(listing_url)
-                add_listing(listing_url, title)
-                new_results.append({"title":title,
-                                    "listing_url":listing_url,
-                                    "price":price,
-                                    "img_url":img_url
-                                    })
-            listing_count = listing_count + 1
+        extracted_listings = extract_listings(listings)
 
-        results[search.name] = new_results
+        new_results = []
+    for listing in extracted_listings:
+
+        (price, img_url) = item_content(listing[1])
+        listing_db = session.query(Listing).filter(Listing.url==listing[1]).all()
+
+        if len(listing_db) == 0:
+            listing_data = {"title":listing[0],
+                            "listing_url":listing[1],
+                            "price":price,
+                            "img_url":img_url
+                            }
+            new_results.append(listing_data)
+            add_listing_db(listing[0], listing[0])
+    results[search.name] = new_results
+
     return results
 
 def get_listings(url):
@@ -56,10 +57,29 @@ def get_listings(url):
     driver.quit()
     return html_soup.find('ol')
 
+def extract_listings(inputHTML):
+    """ exctracts listing title and url from beautiful soup data
+        returns list of tuples """
+
+    listings = []
+    listing_count = 1
+    while len(listings) <= 10:
+        try:
+            title = inputHTML.find_all("a")[listing_count].text
+            listing_url = inputHTML.find_all("a")[listing_count]['href']
+            listings.append((title, listing_url))
+            listing_count = listing_count + 1
+        except:
+            return listings
+
+    return listings
 def item_content(url):
     """ returns tuple of price integer and image (if available) from individual item page
         if there is no image or price on the listing page it will return none for each value. """
-    listing = requests.get(url)
+    try:
+        listing = requests.get(url)
+    except:
+        return None
     content = BeautifulSoup(listing.content, 'html.parser')
     try:
         image = content.find('img')['src']
@@ -93,7 +113,7 @@ def get_searches():
         searches = URL.query.filter_by(active=True).all()
         return searches
 
-def add_listing(new_url, new_title):
+def add_listing_db(new_url, new_title):
     """ adds new listing to Listings table """
     new_listing = Listing(url = new_url, title = new_title)
     session.add(new_listing)
@@ -110,7 +130,7 @@ APP_PASSWORD = os.environ['app_password']
 
 
 message = MIMEMultipart("alternative")
-message["Subject"] = "Craigslist Espresso Machines"
+message["Subject"] = "Craigslist Scraper"
 message["From"] = SENDER_EMAIL
 message["To"] = RECEIVER_EMAIL
 
