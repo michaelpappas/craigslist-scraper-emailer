@@ -28,9 +28,10 @@ def get_active():
     for search in searches:
         listings = get_listings(search.search_url)
         new_results = []
-        for x in range(10):
-            title = listings.find_all("a")[x].text
-            listing_url = listings.find_all("a")[x]['href']
+        listing_count = 1
+        while listing_count <= 10:
+            title = listings.find_all("a")[listing_count].text
+            listing_url = listings.find_all("a")[listing_count]['href']
             listing_db = session.query(Listing).filter(Listing.url==listing_url).all()
             if len(listing_db) == 0:
                 (price, img_url) = item_content(listing_url)
@@ -40,6 +41,8 @@ def get_active():
                                     "price":price,
                                     "img_url":img_url
                                     })
+            listing_count = listing_count + 1
+
         results[search.name] = new_results
     return results
 
