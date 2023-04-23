@@ -64,7 +64,7 @@ def extract_listings(inputHTML):
 
     listings = []
     listing_count = 1
-    while len(listings) <= 10:
+    while listing_count <= 10:
         try:
             title = inputHTML.find_all("a")[listing_count].text
             listing_url = inputHTML.find_all("a")[listing_count]['href']
@@ -123,6 +123,7 @@ def add_listing_db(new_title, new_url):
 
 new_results = get_active()
 email_content = format_html(new_results)
+breakpoint
 
 ################################# email logic #####################
 SENDER_EMAIL = os.environ['email_sender']
