@@ -30,20 +30,21 @@ def get_active():
         extracted_listings = extract_listings(listings)
 
         new_results = []
-    for listing in extracted_listings:
+        for listing in extracted_listings:
 
-        (price, img_url) = item_content(listing[1])
-        listing_db = session.query(Listing).filter(Listing.url==listing[1]).all()
+            (price, img_url) = item_content(listing[1])
+            listing_db = session.query(Listing).filter(Listing.url==listing[1]).all()
 
-        if len(listing_db) == 0:
-            listing_data = {"title":listing[0],
-                            "listing_url":listing[1],
-                            "price":price,
-                            "img_url":img_url
-                            }
-            new_results.append(listing_data)
-            add_listing_db(listing[0], listing[0])
-    results[search.name] = new_results
+            if len(listing_db) == 0:
+                breakpoint()
+                listing_data = {"title":listing[0],
+                                "listing_url":listing[1],
+                                "price":price,
+                                "img_url":img_url
+                                }
+                new_results.append(listing_data)
+                add_listing_db(listing[0], listing[1])
+        results[search.name] = new_results
 
     return results
 
@@ -113,7 +114,7 @@ def get_searches():
         searches = URL.query.filter_by(active=True).all()
         return searches
 
-def add_listing_db(new_url, new_title):
+def add_listing_db(new_title, new_url):
     """ adds new listing to Listings table """
     new_listing = Listing(url = new_url, title = new_title)
     session.add(new_listing)
