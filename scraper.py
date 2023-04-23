@@ -36,7 +36,6 @@ def get_active():
             listing_db = session.query(Listing).filter(Listing.url==listing[1]).all()
 
             if len(listing_db) == 0:
-                breakpoint()
                 listing_data = {"title":listing[0],
                                 "listing_url":listing[1],
                                 "price":price,
@@ -123,7 +122,6 @@ def add_listing_db(new_title, new_url):
 
 new_results = get_active()
 email_content = format_html(new_results)
-breakpoint
 
 ################################# email logic #####################
 SENDER_EMAIL = os.environ['email_sender']
