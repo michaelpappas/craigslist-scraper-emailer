@@ -1,5 +1,8 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
+# from selenium.webdriver.chrome.service import Service #pi specific
+# from webdriver_manager.chrome import ChromeDriverManager #pi specific
+# from pyvirtualdisplay import Display
 import requests
 import time
 import smtplib, ssl
@@ -47,6 +50,8 @@ def get_active():
 
     return results
 
+
+# Mac os specific function below. Comment out of using a Rapsberry Pi
 def get_listings(url):
     """ fetches page data, waits for content to load, and returns 'ol' from page """
     driver = webdriver.Firefox()
@@ -56,6 +61,23 @@ def get_listings(url):
     html_soup = BeautifulSoup(html, 'html.parser')
     driver.quit()
     return html_soup.find('ol')
+
+
+# Raspberry Pi specific function below. Comment out of using Mac os.
+# def get_listings(url):
+#     """ fetches page data, waits for content to load, and returns 'ol' from page """
+
+#     display = Display(visible=0, size=(1600, 1200))
+#     display.start()
+#     browser_driver = Service('/usr/lib/chromium-browser/chromedriver')
+#     driver = webdriver.Chrome(service=browser_driver)
+#     response = driver.get(url)
+#     time.sleep(2)
+#     html = driver.page_source
+#     html_soup = BeautifulSoup(html, 'html.parser')
+#     driver.quit()
+#     display.stop()
+#     return html_soup.find('ol')
 
 def extract_listings(inputHTML):
     """ exctracts listing title and url from beautiful soup data
