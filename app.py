@@ -10,6 +10,8 @@ from models import db, connect_db, URL, Listing
 
 load_dotenv()
 
+scraper_status = True
+
 app = Flask(__name__)
 
 # Get DB_URI from environ variable (useful for production/testing) or,

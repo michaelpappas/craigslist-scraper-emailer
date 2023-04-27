@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 # from selenium.webdriver.chrome.service import Service #pi specific
 # from webdriver_manager.chrome import ChromeDriverManager #pi specific
-# from pyvirtualdisplay import Display
+# from pyvirtualdisplay import Display #pi specific
 import requests
 import time
 import smtplib, ssl
@@ -12,7 +12,8 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import db, URL, Listing
+from models import URL, Listing
+from app import scraper_status
 
 load_dotenv()
 db_string = os.environ['DATABASE_URL']
@@ -21,7 +22,6 @@ db = create_engine(db_string)
 
 Session = sessionmaker(db)
 session = Session()
-
 
 def get_active():
     """ fetches list of active search queries from URL table """
@@ -51,7 +51,7 @@ def get_active():
     return results
 
 
-# Mac os specific function below. Comment out of using a Rapsberry Pi
+# Mac os specific function below. Comment out if using a Rapsberry Pi
 def get_listings(url):
     """ fetches page data, waits for content to load, and returns 'ol' from page """
     driver = webdriver.Firefox()
@@ -63,7 +63,7 @@ def get_listings(url):
     return html_soup.find('ol')
 
 
-# Raspberry Pi specific function below. Comment out of using Mac os.
+# Raspberry Pi specific function below. Comment out if using Mac OS.
 # def get_listings(url):
 #     """ fetches page data, waits for content to load, and returns 'ol' from page """
 
@@ -131,9 +131,9 @@ def format_html(input):
     return (email_html, has_content)
 
 def get_searches():
-        """ queries db and returns active search queries """
-        searches = URL.query.filter_by(active=True).all()
-        return searches
+    """ queries db and returns active search queries """
+    searches = URL.query.filter_by(active=True).all()
+    return searches
 
 def add_listing_db(new_title, new_url):
     """ adds new listing to Listings table """
@@ -142,8 +142,9 @@ def add_listing_db(new_title, new_url):
     session.commit()
 
 
-new_results = get_active()
-email_content = format_html(new_results)
+if scraper_status:
+    new_results = get_active()
+    email_content = format_html(new_results)
 
 ################################# email logic #####################
 SENDER_EMAIL = os.environ['email_sender']
@@ -169,7 +170,7 @@ message.attach(part1)
 context = ssl.create_default_context()
 with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
     server.login(SENDER_EMAIL, APP_PASSWORD)
-    if email_content[1] == True:
+    if email_content[1]:
         server.sendmail(
             SENDER_EMAIL, RECEIVER_EMAIL, message.as_string()
     )
