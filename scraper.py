@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import URL, Listing
-from app import scraper_status
+from app import scraper_enable
 
 load_dotenv()
 db_string = os.environ['DATABASE_URL']
@@ -142,7 +142,7 @@ def add_listing_db(new_title, new_url):
     session.commit()
 
 
-if scraper_status:
+if scraper_enable:
     new_results = get_active()
     email_content = format_html(new_results)
 

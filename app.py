@@ -10,7 +10,7 @@ from models import db, connect_db, URL, Listing
 
 load_dotenv()
 
-scraper_status = True
+scraper_enable = True
 
 app = Flask(__name__)
 
