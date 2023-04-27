@@ -1,12 +1,12 @@
 import os
 from dotenv import load_dotenv
 
-from flask import Flask, render_template, request, flash, redirect, session, g
+from flask import Flask, render_template,flash, redirect
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
 from forms import URLAddForm
-from models import db, connect_db, URL, Listing
+from models import db, connect_db, URL
 
 load_dotenv()
 
@@ -75,5 +75,19 @@ def delete_search(search_id):
     search = URL.query.get_or_404(search_id)
     db.session.delete(search)
     db.session.commit()
+
+    return redirect('/')
+
+@app.post('/enable')
+def enable_scraper():
+    """Change scraper_enable to True"""
+    scraper_enable = True
+
+    return redirect('/')
+
+@app.post('/disable')
+def disable_scraper():
+    """Change scraper_enable to False"""
+    scraper_enable = False
 
     return redirect('/')
