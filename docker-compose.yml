@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  craigslist_scraper:
+    container_name: craigslist_scraper
+    restart: 'always'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8000:5005'
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/craigslist_scraper
+      - SECRET_KEY=s3cr3t
+      - app_password=bqeiolyuriezagil
+      - email_sender=pappas.michael.robot@gmail.com
+      - email_receiver=pappas.michael@gmail.com
+      - SECRET_KEY=abc123
+    depends_on:
+      - db
+  db:
+    container_name: db
+    image: postgres:15-alpine
+    restart: 'always'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=craigslist_scraper
+      - POSTGRES_PORT=5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
+
+volumes:
+  pgdata: {}
