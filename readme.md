@@ -29,7 +29,7 @@ Note: this will take a long time. Firefox alone takes about 5 minutes to install
 
 Once done you can run
 ```bash
-docker composer up
+docker compose up
 ```
 Confirm that the containers are running and navigate to localhost:8000 to get to the main page. Here you can add, remove, activate, and deactivate search queries.
 
