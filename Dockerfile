@@ -11,7 +11,5 @@ RUN apk add xvfb
 COPY /dockerScraper .
 Copy /dockerScraper/cronjob /etc/crontabs/root
 CMD [ "python3", "-m" , "flask", "run", "-p", "5005", "--host=0.0.0.0"]
-# RUN echo '*/2  *  *  *  *    python3 /dockerScraper/scraper.py' > /etc/crontabs/root
-# CMD crond
 
 

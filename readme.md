@@ -5,10 +5,45 @@ Two versions of the script are available; one for running on unix and one for ru
 
 
 ## Table of Contents
+- [Docker Installation](#manual-installation)
 - [Manual Installation](#manual-installation)
 - [Dev Environment](#development-environment)
 - [Project Structure](#project-structure)
 - [Further Improvements](#further-improvements)
+
+## Docker Installation
+Clone the repo:
+
+```bash
+git clone https://github.com/michaelpappas/craigslist-scraper-emailer
+cd craigslist-scraper-emailer
+```
+Fill in your environment variables in the sample-docker-file.yml as described below for secret key,
+app password, email sender, and email receiver and rename the sample-docker-file.yml to docker-file.yml
+
+Run
+```bash
+docker compose build
+```
+Note: this will take a long time. Firefox alone takes about 5 minutes to install on my 2019 macbook pro.
+
+Once done you can run
+```bash
+docker composer up
+```
+Confirm that the containers are running and navigate to localhost:8000 to get to the main page. Here you can add, remove, activate, and deactivate search queries.
+
+To enable the cronjob inside the Docker container you'll need to run
+```bash
+docker exec -it craigslist_scraper crond -f
+```
+
+By default the frequency the script exectures is every 2 minutes. You can change this by modifyin the cronjob file in the dockerscraper directory before building the containers or by editing the crontab in the container.
+You can access the container crontab using
+```bash
+docker exec -it craigslist_scraper crontab -e
+```
+
 
 ## Manual Installation
 
