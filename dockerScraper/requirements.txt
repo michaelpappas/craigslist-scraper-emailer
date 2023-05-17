@@ -1,0 +1,13 @@
+beautifulsoup4
+Flask
+Flask-Bcrypt
+Flask-DebugToolbar
+Flask-SQLAlchemy
+Flask-WTF
+ipython
+psycopg2-binary
+python-dotenv
+beautifulsoup4
+selenium==3.11
+webdriver-manager
+pyvirtualdisplay
