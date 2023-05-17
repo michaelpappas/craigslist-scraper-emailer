@@ -38,7 +38,7 @@ To enable the cronjob inside the Docker container you'll need to run
 docker exec -it craigslist_scraper crond -f
 ```
 
-By default the frequency the script exectures is every 2 minutes. You can change this by modifyin the cronjob file in the dockerscraper directory before building the containers or by editing the crontab in the container.
+By default the frequency the script exectures is every 2 minutes. You can change this by modifying the cronjob file in the dockerscraper directory before building the containers or by editing the crontab in the container.
 You can access the container crontab using
 ```bash
 docker exec -it craigslist_scraper crontab -e
