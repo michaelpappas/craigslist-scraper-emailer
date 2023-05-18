@@ -5,8 +5,9 @@ Two versions of the script are available; one for running on unix and one for ru
 
 
 ## Table of Contents
-- [Docker Installation](#manual-installation)
+- [Docker Installation](#docker-installation)
 - [Manual Installation](#manual-installation)
+- [Query Configuration](#query-configuration)
 - [Dev Environment](#development-environment)
 - [Project Structure](#project-structure)
 - [Further Improvements](#further-improvements)
@@ -74,6 +75,12 @@ More info on configuring Gmail to work with an app password can be seen [here](h
 
 You will need also sender email address, sender email address app password, and a recipient email address.
 
+## Query Configuration
+
+To find a search query, search to something on Craigslist, configure the view to "list" and copy the url. Your URL should end with "1~list~0~0" when correctly configured.
+Paste this url into the search url field on the flask app and give the search query a unique name.
+Once the search query has been successfully added you can toggle the query active/inactive.
+The scraper will only search active search queries.
 
 ## Development Environment
 
@@ -114,12 +121,8 @@ Start the flask server with:
 ```bash
 flask run -p 5000
 ```
-Navigate to localhost:5000 where you can start configuring search queries to scrape.
 
-To find a search query, search to something on Craigslist, configure the view to "list" and copy the url.
-Paste this url into the search url field on the flask app and give the search query a unique name.
-Once the search query has been successfully added you can toggle the query active/inactive.
-The scraper will only search active search queries.
+Navigate to localhost:5000 where you can start configuring search queries to scrape.
 
 To test the script you can run:
 ```bash
