@@ -25,7 +25,7 @@ Run
 ```bash
 docker compose build
 ```
-Note: this will take a long time. Firefox alone takes about 5 minutes to install on my 2019 macbook pro.
+Note: this will take a long time. Firefox alone takes about 10 minutes to install on my 2019 macbook pro.
 
 Once done you can run
 ```bash
