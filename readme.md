@@ -133,7 +133,7 @@ python3 scraper.py
 You should receive an email once the script has finished running if new search results are found.
 
 **Caution!**
-It is likely that Craigslist will soft ban your IP if you run this too frequently. It is recomendeded that you route your traffic through a VPN.
+It is likely that Craigslist will soft ban your IP if you run this too frequently. It is recommended that you route your traffic through a VPN.
 I used Openvpn with Surfshark and have it configured to start on boot on the RaspberryPi. Info on how to configure Openvpn to start on boot with systemctl can be found [here](https://askubuntu.com/questions/229800/how-to-auto-start-openvpn-client-on-ubuntu-cli/898437#898437?newreg=b08e700a6d814115b9c33628c7a05891) Look for the answer dated March 30, 2017.
 
 To run the script you will need to create a CRONjon.
