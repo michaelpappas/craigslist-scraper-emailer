@@ -77,7 +77,7 @@ You will need also sender email address, sender email address app password, and 
 
 ## Query Configuration
 
-To find a search query, search to something on Craigslist, configure the view to "list" and copy the url. Your URL should end with "1~list~0~0" when correctly configured.
+To find a search query, search to something on Craigslist, configure the view to "list" and copy the url. Your URL should end with `1~list~0~0` when correctly configured.
 Paste this url into the search url field on the flask app and give the search query a unique name.
 Once the search query has been successfully added you can toggle the query active/inactive.
 The scraper will only search active search queries.
