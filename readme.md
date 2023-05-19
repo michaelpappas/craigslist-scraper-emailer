@@ -22,7 +22,7 @@ cd craigslist-scraper-emailer
 
 Copy the sample-docker-compose.yml file to docker-compose.yml and fill in the environment variables.
 ```bash
-cp .env.example .env
+cp sample-docker-compose.yml docker-compose.yml
 # open .env and modify the environment variables
 ```
 
