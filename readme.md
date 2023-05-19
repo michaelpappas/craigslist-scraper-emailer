@@ -19,8 +19,12 @@ Clone the repo:
 git clone https://github.com/michaelpappas/craigslist-scraper-emailer
 cd craigslist-scraper-emailer
 ```
-Fill in your environment variables in the sample-docker-file.yml as described below for secret key,
-app password, email sender, and email receiver and rename the sample-docker-file.yml to docker-file.yml
+
+Copy the sample-docker-compose.yml file to docker-compose.yml and fill in the environment variables.
+```bash
+cp .env.example .env
+# open .env and modify the environment variables
+```
 
 Run
 ```bash
