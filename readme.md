@@ -38,11 +38,6 @@ docker compose up
 ```
 Confirm that the containers are running and navigate to localhost:8000 to get to the main page. Here you can add, remove, activate, and deactivate search queries.
 
-To enable the cronjob inside the Docker container you'll need to run
-```bash
-docker exec -it craigslist_scraper crond -f
-```
-
 By default the frequency the script executes is every 2 minutes. You can change this by modifying the cronjob file in the dockerscraper directory before building the containers or by editing the crontab in the container.
 You can access the container crontab using
 ```bash
