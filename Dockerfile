@@ -10,7 +10,9 @@ RUN chmod +x /usr/local/bin/geckodriver
 RUN apk add xvfb
 COPY /dockerScraper .
 Copy /dockerScraper/cronjob /etc/crontabs/root
-CMD crond -f -l 2
+RUN chmod +x /etc/crontabs/root
+CMD crond -l 2 -f & flask run --host=0.0.0.0 -p 5005
+# CMD crond -f -l 2
 # CMD [ "python3", "-m" , "flask", "run", "-p", "5005", "--host=0.0.0.0"]
 
 
